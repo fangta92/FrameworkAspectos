@@ -45,25 +45,22 @@ class FrameworkTest < Test::Unit::TestCase
 
   def test_expresiones_regulares_metodos_failure
     point_cut_expresion = ExpresionRegular.new([/metodos_que_cumplen34/])
-    (point_cut_expresion.metodos_que_cumplen).each do |metodo_clase| print(metodo_clase.metodo) end
-    assert !((point_cut_expresion.metodos_que_cumplen).length >1)
+    assert (point_cut_expresion.metodos_que_cumplen).empty?
   end
 
   def test_expresiones_regulares_metodos_ok
     point_cut_expresion = ExpresionRegular.new([/metodos_que_c*/])
-    (point_cut_expresion.metodos_que_cumplen).each do |metodo_clase| print(metodo_clase.metodo) end
-    assert (point_cut_expresion.metodos_que_cumplen).length >1
+    assert point_cut_expresion.metodos_que_cumplen.include? ClaseMetodo.new(MetodosEspecificos,:metodos_que_cumplen)
   end
 
   def test_expresiones_regulares_clases_ok
     point_cut_expresion = ExpresionRegular.new([/Join[P]/,/int/])
-    (point_cut_expresion.clases_que_cumplen).each do |metodo_clase| print(metodo_clase.clase) end
-    assert (point_cut_expresion.clases_que_cumplen).length >1
+    assert point_cut_expresion.clases_que_cumplen.include? ClaseMetodo.new(JoinPoint,:todas_las_clases)
   end
+
   def test_expresiones_regulares_clases_failure
     point_cut_expresion = ExpresionRegular.new([/Join[P]/,/batman{10}/])
-    (point_cut_expresion.clases_que_cumplen).each do |metodo_clase| print(metodo_clase.clase) end
-    assert !((point_cut_expresion.clases_que_cumplen).length >1)
+    assert (point_cut_expresion.metodos_que_cumplen).empty?
   end
 
 end

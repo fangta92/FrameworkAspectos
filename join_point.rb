@@ -14,6 +14,18 @@ class JoinPoint
     coleccion
   end
 
+  def or(otro_join_point)
+    PointCutOr.new(self, otro_join_point)
+  end
+
+  def and(otro_join_point)
+    PointCutAnd.new(self, otro_join_point)
+  end
+
+  def not
+    PointCutNot.new(self)
+  end
+
 end
 
 class ClaseMetodo
@@ -25,8 +37,11 @@ class ClaseMetodo
     @metodo = metodo
   end
 
-  def equal?(otraClaseMetodo)
+  def eql?(otraClaseMetodo)
     @clase == otraClaseMetodo.clase && @metodo == otraClaseMetodo.metodo
   end
 
+  def ==(otraClaseMetodo)
+    @clase == otraClaseMetodo.clase && @metodo == otraClaseMetodo.metodo
+  end
 end

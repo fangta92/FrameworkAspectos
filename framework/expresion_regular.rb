@@ -10,8 +10,8 @@ class ExpresionRegular  < JoinPoint
   end
 
   def clases_que_cumplen
-    metodos_de_las_clases.select do |clase_metodo| @expresiones.all? do
-            |expresion| expresion.match clase_metodo.clase.to_s end  end
+    todas_las_clases.select do |clase| @expresiones.all? do
+            |expresion| expresion.match clase.to_s end  end
   end
 
 end

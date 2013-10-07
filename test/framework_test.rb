@@ -55,7 +55,7 @@ class FrameworkTest < Test::Unit::TestCase
 
   def test_expresiones_regulares_clases_ok
     point_cut_expresion = ExpresionRegular.new([/Join[P]/,/int/])
-    assert point_cut_expresion.clases_que_cumplen.include? ClaseMetodo.new(JoinPoint,:todas_las_clases)
+    assert point_cut_expresion.clases_que_cumplen.include? JoinPoint
   end
 
   def test_expresiones_regulares_clases_failure

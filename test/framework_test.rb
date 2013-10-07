@@ -60,7 +60,7 @@ class FrameworkTest < Test::Unit::TestCase
 
   def test_expresiones_regulares_clases_failure
     point_cut_expresion = ExpresionRegular.new([/Join[P]/,/batman{10}/])
-    assert (point_cut_expresion.metodos_que_cumplen).empty?
+    assert (point_cut_expresion.clases_que_cumplen).empty?
   end
 
 end

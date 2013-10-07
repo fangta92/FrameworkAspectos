@@ -7,7 +7,8 @@ class PointCutNot < JoinPoint
   end
 
   def metodos_que_cumplen
-    metodos_de_las_clases - @join_point.metodos_que_cumplen
+    metodos_de_las_clases.select do |metodo|
+      !(@join_point.metodos_que_cumplen.include? metodo) end
   end
 
 end

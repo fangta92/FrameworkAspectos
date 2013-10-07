@@ -37,11 +37,8 @@ class ClaseMetodo
     @metodo = metodo
   end
 
-  def eql?(otraClaseMetodo)
-    @clase == otraClaseMetodo.clase && @metodo == otraClaseMetodo.metodo
-  end
-
   def ==(otraClaseMetodo)
     @clase == otraClaseMetodo.clase && @metodo == otraClaseMetodo.metodo
   end
+
 end

@@ -5,6 +5,8 @@ require_relative '../framework/point_cut'
 require_relative '../framework/point_cut_and'
 require_relative '../framework/point_cut_or'
 require_relative '../framework/point_cut_not'
+require_relative '../framework/expresion_regular'
+
 
 class FrameworkTest < Test::Unit::TestCase
 
@@ -39,6 +41,29 @@ class FrameworkTest < Test::Unit::TestCase
   def test_not
     point_cut_not = MetodosEspecificos.new([:clase]).not
     assert !(point_cut_not.metodos_que_cumplen.include? ClaseMetodo.new(ClaseMetodo, :clase))
+  end
+
+  def test_expresiones_regulares_metodos_failure
+    point_cut_expresion = ExpresionRegular.new([/metodos_que_cumplen34/])
+    (point_cut_expresion.metodos_que_cumplen).each do |metodo_clase| print(metodo_clase.metodo) end
+    assert !((point_cut_expresion.metodos_que_cumplen).length >1)
+  end
+
+  def test_expresiones_regulares_metodos_ok
+    point_cut_expresion = ExpresionRegular.new([/metodos_que_c*/])
+    (point_cut_expresion.metodos_que_cumplen).each do |metodo_clase| print(metodo_clase.metodo) end
+    assert (point_cut_expresion.metodos_que_cumplen).length >1
+  end
+
+  def test_expresiones_regulares_clases_ok
+    point_cut_expresion = ExpresionRegular.new([/Join[P]/,/int/])
+    (point_cut_expresion.clases_que_cumplen).each do |metodo_clase| print(metodo_clase.clase) end
+    assert (point_cut_expresion.clases_que_cumplen).length >1
+  end
+  def test_expresiones_regulares_clases_failure
+    point_cut_expresion = ExpresionRegular.new([/Join[P]/,/batman{10}/])
+    (point_cut_expresion.clases_que_cumplen).each do |metodo_clase| print(metodo_clase.clase) end
+    assert !((point_cut_expresion.clases_que_cumplen).length >1)
   end
 
 end

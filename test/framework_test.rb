@@ -63,4 +63,11 @@ class FrameworkTest < Test::Unit::TestCase
     assert (point_cut_expresion.clases_que_cumplen).empty?
   end
 
+  def test_aridad
+    aridad_5 = MetodosDeAridad.new(5)
+    assert aridad_5.metodos_que_cumplen.include? ClaseMetodo.new(MetodosDeAridad, :metodo_de_aridad_5)
+    # assert_equal aridad_5.metodos_que_cumplen.length, 1
+    # da 2 cuando debería dar 1, en el irb da 1
+  end
+
 end

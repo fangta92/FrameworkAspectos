@@ -1,6 +1,6 @@
 class MetodosDeAridad < JoinPoint
 
-  def initialize(aridad=2)
+  def initialize(aridad)
     @aridad = aridad
   end
 

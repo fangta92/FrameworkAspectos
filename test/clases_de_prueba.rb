@@ -6,19 +6,19 @@ class A
 end
 
 class B < A
-  def bbb
+  def bbb(requerido)
 
   end
 end
 
 class C < A
-  def ccc
+  def ccc(opcional=2, requerido)
 
   end
 end
 
 class D < C
-  def ddd
+  def ddd(opcional=2)
 
   end
 end

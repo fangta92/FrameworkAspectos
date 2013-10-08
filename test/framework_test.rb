@@ -9,7 +9,9 @@ require_relative '../framework/expresion_regular'
 require_relative '../framework/metodos_de_aridad'
 require_relative '../framework/clases_especificas'
 require_relative '../framework/jerarquia_de_clases'
+require_relative '../framework/metodos_por_tipo_de_parametro'
 require_relative 'clases_de_prueba'
+
 
 class FrameworkTest < Test::Unit::TestCase
 
@@ -65,13 +67,6 @@ class FrameworkTest < Test::Unit::TestCase
     assert (point_cut_expresion.clases_que_cumplen).empty?
   end
 
-  def test_aridad
-    aridad_5 = MetodosDeAridad.new(5)
-    assert aridad_5.metodos_que_cumplen.include? ClaseMetodo.new(Aridad5, :metodo_de_aridad_5)
-    #assert_equal aridad_5.metodos_que_cumplen.length, 1
-    # da 2 cuando debería dar 1, en el irb da 1
-  end
-
   def test_aridad_5
     aridad_5 = MetodosDeAridad.new(5).and ClasesEspecificas.new([Aridad5])
     assert aridad_5.metodos_que_cumplen.include? ClaseMetodo.new(Aridad5, :metodo_de_aridad_5)
@@ -93,5 +88,12 @@ class FrameworkTest < Test::Unit::TestCase
     assert (clases.include? B), "B no está en la jerarquía"
     assert (clases.include? C), "C no está en la jerarquía"
     assert (clases.include? D), "D no está en la jerarquía"
+  end
+
+  def test_metodos_con_parametro_opcional
+    metodos_con_parametro_opcional = MetodosEspecificos.new([:aaa, :bbb, :ccc, :ddd]).and MetodosPorTipoDeParametro.new(:opt)
+    assert metodos_con_parametro_opcional.metodos_que_cumplen.include? ClaseMetodo.new(C,:ccc)
+    assert metodos_con_parametro_opcional.metodos_que_cumplen.include? ClaseMetodo.new(D,:ddd)
+    assert_equal metodos_con_parametro_opcional.metodos_que_cumplen.length, 2
   end
 end

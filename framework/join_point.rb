@@ -41,4 +41,8 @@ class ClaseMetodo
     @clase == otraClaseMetodo.clase && @metodo == otraClaseMetodo.metodo
   end
 
+  def parametros
+    @clase.instance_method(@metodo).parameters
+  end
+
 end

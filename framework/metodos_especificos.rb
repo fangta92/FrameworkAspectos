@@ -4,9 +4,7 @@ class MetodosEspecificos < JoinPoint
     @metodos = metodos
   end
 
-  def metodos_que_cumplen
-    metodos_de_las_clases.select do |clase_metodo|
-      @metodos.include? clase_metodo.metodo
-    end
+  def interesa? (clase_metodo)
+    @metodos.include? clase_metodo.metodo
   end
 end

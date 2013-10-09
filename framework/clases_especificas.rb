@@ -3,9 +3,7 @@ class ClasesEspecificas < JoinPoint
     @clases = clases
   end
 
-  def metodos_que_cumplen
-    metodos_de_las_clases.select do |clase_metodo|
-      @clases.include? clase_metodo.clase
-    end
+  def interesa? (clase_metodo)
+    @clases.include? clase_metodo.clase
   end
 end

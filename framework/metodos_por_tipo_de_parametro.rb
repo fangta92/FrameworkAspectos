@@ -1,4 +1,3 @@
-
 class MetodosPorTipoDeParametro < JoinPoint
 
   def initialize(tipo)
@@ -6,11 +5,8 @@ class MetodosPorTipoDeParametro < JoinPoint
   end
 
 
-  def metodos_que_cumplen
-    metodos_de_las_clases.select do |clase_metodo|
-      clase_metodo.parametros.any? {|parametro|
-        parametro.first == @tipo}
-    end
+  def interesa? (clase_metodo)
+    clase_metodo.parametros.any? { |parametro| parametro.first == @tipo }
   end
 end
 

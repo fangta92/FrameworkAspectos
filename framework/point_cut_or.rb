@@ -1,13 +1,5 @@
 class PointCutOr < PointCut
-
-  def metodos_que_cumplen
-    metodos = @join_point_1.metodos_que_cumplen
-    @join_point_2.metodos_que_cumplen.each do |metodo|
-      if !(metodos.include? metodo)
-        metodos.push metodo
-      end
-    end
-    metodos
+  def interesa? (clase_metodo)
+    (@join_point_1.interesa? clase_metodo) || (@join_point_2.interesa? clase_metodo)
   end
-
 end

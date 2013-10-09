@@ -5,13 +5,21 @@ class JoinPoint
   end
 
   def metodos_de_las_clases
-    (todas_las_clases.collect do |clase| metodos_de_una_clase(clase) end).flatten
+    (todas_las_clases.collect do |clase|
+      metodos_de_una_clase(clase)
+    end).flatten
   end
 
   def metodos_de_una_clase(clase)
-    coleccion = []
-    clase.instance_methods(false).each do |metodo| coleccion.push ClaseMetodo.new(clase, metodo) end
-    coleccion
+    clase.instance_methods(false).map do |metodo|
+      ClaseMetodo.new(clase, metodo)
+    end
+  end
+
+  def metodos_que_cumplen
+    metodos_de_las_clases.select do |clase_metodo|
+      interesa? clase_metodo
+    end
   end
 
   def or(otro_join_point)
@@ -25,24 +33,4 @@ class JoinPoint
   def not
     PointCutNot.new(self)
   end
-
-end
-
-class ClaseMetodo
-
-  attr_accessor :clase, :metodo
-
-  def initialize(clase, metodo)
-    @clase = clase
-    @metodo = metodo
-  end
-
-  def ==(otraClaseMetodo)
-    @clase == otraClaseMetodo.clase && @metodo == otraClaseMetodo.metodo
-  end
-
-  def parametros
-    @clase.instance_method(@metodo).parameters
-  end
-
 end

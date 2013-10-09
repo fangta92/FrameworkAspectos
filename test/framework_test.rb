@@ -48,23 +48,24 @@ class FrameworkTest < Test::Unit::TestCase
   end
 
   def test_expresiones_regulares_metodos_failure
-    point_cut_expresion = ExpresionRegular.new([/metodos_que_cumplen34/])
+    point_cut_expresion = ExpresionRegularMetodos.new([/metodos_que_cumplen34/])
     assert (point_cut_expresion.metodos_que_cumplen).empty?
   end
 
   def test_expresiones_regulares_metodos_ok
-    point_cut_expresion = ExpresionRegular.new([/metodos_que_c*/])
+    point_cut_expresion = ExpresionRegularMetodos.new([/metodos_que_c*/])
     assert point_cut_expresion.metodos_que_cumplen.include? ClaseMetodo.new(MetodosEspecificos, :metodos_que_cumplen)
   end
 
   def test_expresiones_regulares_clases_ok
-    point_cut_expresion = ExpresionRegular.new([/Join[P]/, /int/])
-    assert point_cut_expresion.clases_que_cumplen.include? JoinPoint
+    point_cut_expresion = ExpresionRegularClases.new([/Join[P]/, /int/])
+
+    assert point_cut_expresion.metodos_que_cumplen.include? ClaseMetodo.new(JoinPoint,:todas_las_clases)
   end
 
   def test_expresiones_regulares_clases_failure
-    point_cut_expresion = ExpresionRegular.new([/Join[P]/, /batman{10}/])
-    assert (point_cut_expresion.clases_que_cumplen).empty?
+    point_cut_expresion = ExpresionRegularClases.new([/Join[P]/, /batman{10}/])
+    assert (point_cut_expresion.metodos_que_cumplen).empty?
   end
 
   def test_aridad_5

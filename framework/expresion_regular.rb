@@ -1,4 +1,4 @@
-class ExpresionRegular  < JoinPoint
+class ExpresionRegularMetodos  < JoinPoint
 
   def initialize(expresiones)
     @expresiones = expresiones
@@ -9,9 +9,19 @@ class ExpresionRegular  < JoinPoint
             |expresion| expresion.match clase_metodo.metodo.to_s end  end
   end
 
-  def clases_que_cumplen
-    todas_las_clases.select do |clase| @expresiones.all? do
-            |expresion| expresion.match clase.to_s end  end
+  end
+
+
+
+class ExpresionRegularClases  < JoinPoint
+
+  def initialize(expresiones)
+    @expresiones = expresiones
+  end
+
+  def metodos_que_cumplen
+    metodos_de_las_clases.select do |clase_metodo| @expresiones.all? do
+     |expresion| expresion.match clase_metodo.clase.to_s end  end
   end
 
 end

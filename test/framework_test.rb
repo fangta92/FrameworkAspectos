@@ -10,7 +10,9 @@ require_relative '../framework/expresion_regular'
 require_relative '../framework/metodos_de_aridad'
 require_relative '../framework/clases_especificas'
 require_relative '../framework/jerarquia_de_clases'
+require_relative '../framework/metodos_por_parametro'
 require_relative '../framework/metodos_por_tipo_de_parametro'
+require_relative '../framework/metodos_por_nombre_de_parametro'
 require_relative 'clases_de_prueba'
 
 
@@ -30,7 +32,7 @@ class FrameworkTest < Test::Unit::TestCase
   end
 
   def test_and
-    point_cut_and = MetodosEspecificos.new([:to_s]).and MetodosEspecificos.new([:clone])
+    point_cut_and = MetodosEspecificos.new([:aaa]).and MetodosEspecificos.new([:bbb])
     assert_empty (point_cut_and.metodos_que_cumplen)
   end
 
@@ -61,9 +63,9 @@ class FrameworkTest < Test::Unit::TestCase
     clases = ExpresionRegularClases.new([/[A-C]/]).metodos_que_cumplen.collect do |clase_metodo|
       clase_metodo.clase
     end
-    assert (clases.include? A), "A no está en la jerarquía"
-    assert (clases.include? B), "B no está en la jerarquía"
-    assert (clases.include? C), "C no está en la jerarquía"
+    assert (clases.include? A), "A no cumple con la expresion"
+    assert (clases.include? B), "B no cumple con la expresion"
+    assert (clases.include? C), "C no cumple con la expresion"
   end
 
   def test_expresiones_regulares_clases_failure
@@ -88,10 +90,10 @@ class FrameworkTest < Test::Unit::TestCase
     clases = JerarquiaDeClases.new(A).metodos_que_cumplen.collect do |clase_metodo|
       clase_metodo.clase
     end
-    assert (clases.include? A), "A no está en la jerarquía"
-    assert (clases.include? B), "B no está en la jerarquía"
-    assert (clases.include? C), "C no está en la jerarquía"
-    assert (clases.include? D), "D no está en la jerarquía"
+    assert (clases.include? A), "A no esta en la jerarquia"
+    assert (clases.include? B), "B no esta en la jerarquia"
+    assert (clases.include? C), "C no esta en la jerarquia"
+    assert (clases.include? D), "D no esta en la jerarquia"
   end
 
   def test_metodos_con_parametro_opcional
@@ -100,4 +102,12 @@ class FrameworkTest < Test::Unit::TestCase
     assert metodos_con_parametro_opcional.metodos_que_cumplen.include? ClaseMetodo.new(D,:ddd)
     assert_equal metodos_con_parametro_opcional.metodos_que_cumplen.length, 2
   end
+
+  def test_metodos_con_parametro_especifico
+    metodos_con_parametro_especifico = MetodosPorNombreDeParametro.new(:un_nombre).metodos_que_cumplen
+    assert_equal metodos_con_parametro_especifico.length, 2
+    assert metodos_con_parametro_especifico.include? ClaseMetodo.new(E,:eee);
+    assert metodos_con_parametro_especifico.include? ClaseMetodo.new(F,:fff);
+  end
+
 end

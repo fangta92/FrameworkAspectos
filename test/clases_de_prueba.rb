@@ -23,6 +23,18 @@ class D < C
   end
 end
 
+class E
+  def eee(un_nombre)
+
+  end
+end
+
+class F
+  def fff(un_nombre)
+
+  end
+end
+
 class Aridad5
   def metodo_de_aridad_5(a,s,d,f,g)
   end

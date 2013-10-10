@@ -12,7 +12,7 @@ class B < A
 end
 
 class C < A
-  def ccc(opcional=2, requerido)
+  def ccc(requerido, opcional=2)
 
   end
 end
@@ -26,4 +26,13 @@ end
 class Aridad5
   def metodo_de_aridad_5(a,s,d,f,g)
   end
+end
+
+class Persona
+  attr_accessor :nombre
+
+  def cualquiera
+
+  end
+
 end

@@ -1,13 +1,13 @@
-class MetodosPorTipoDeParametro < JoinPoint
+class MetodosPorTipoDeParametro < MetodosPorParametro
 
   def initialize(tipo)
     @tipo = tipo
   end
 
-
-  def interesa? (clase_metodo)
-    clase_metodo.parametros.any? { |parametro| parametro.first == @tipo }
+  def interesa_parametro? (parametro)
+    parametro.first == @tipo
   end
+
 end
 
 

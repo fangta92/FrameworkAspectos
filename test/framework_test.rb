@@ -11,7 +11,6 @@ require_relative '../framework/metodos_de_aridad'
 require_relative '../framework/clases_especificas'
 require_relative '../framework/jerarquia_de_clases'
 require_relative '../framework/metodos_por_tipo_de_parametro'
-require_relative '../framework/metodos_accessors'
 require_relative 'clases_de_prueba'
 
 
@@ -100,12 +99,5 @@ class FrameworkTest < Test::Unit::TestCase
     assert metodos_con_parametro_opcional.metodos_que_cumplen.include? ClaseMetodo.new(C,:ccc)
     assert metodos_con_parametro_opcional.metodos_que_cumplen.include? ClaseMetodo.new(D,:ddd)
     assert_equal metodos_con_parametro_opcional.metodos_que_cumplen.length, 2
-  end
-
-  def test_metodos_accessors
-    persona = Persona.new
-    print Persona.instance_variables
-    metodos_accesors = (MetodosAccessors.new.and ClasesEspecificas.new([Persona])).metodos_que_cumplen
-    assert_equal [ClaseMetodo.new(Persona, :nombre), ClaseMetodo.new(Persona, :nombre=)], metodos_accesors
   end
 end

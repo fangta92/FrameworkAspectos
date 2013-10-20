@@ -1,5 +1,5 @@
 class ClasesEspecificas < JoinPoint
-  def initialize(clases)
+  def initialize(*clases)
     @clases = clases
   end
 

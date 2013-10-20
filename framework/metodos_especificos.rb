@@ -1,6 +1,6 @@
 class MetodosEspecificos < JoinPoint
 
-  def initialize(metodos)
+  def initialize(*metodos)
     @metodos = metodos
   end
 

@@ -33,12 +33,12 @@ class FrameworkTest < Test::Unit::TestCase
   end
 
   def test_and
-    point_cut_and = MetodosEspecificos.new([:aaa]).and MetodosEspecificos.new([:bbb])
+    point_cut_and = MetodosEspecificos.new(:aaa).and MetodosEspecificos.new(:bbb)
     assert_empty (point_cut_and.metodos_que_cumplen)
   end
 
   def test_or
-    point_cut_or = MetodosEspecificos.new([:aaa, :bbb]).or MetodosEspecificos.new([:aaa, :ccc])
+    point_cut_or = MetodosEspecificos.new(:aaa, :bbb).or MetodosEspecificos.new(:aaa, :ccc)
     assert_equal 3, point_cut_or.metodos_que_cumplen.length
     assert point_cut_or.metodos_que_cumplen.include? ClaseMetodo.new(A, :aaa)
     assert point_cut_or.metodos_que_cumplen.include? ClaseMetodo.new(B, :bbb)
@@ -46,7 +46,7 @@ class FrameworkTest < Test::Unit::TestCase
   end
 
   def test_not
-    point_cut_not = MetodosEspecificos.new([:aaa]).not
+    point_cut_not = MetodosEspecificos.new(:aaa).not
     assert !(point_cut_not.metodos_que_cumplen.include? ClaseMetodo.new(A, :aaa))
   end
 
@@ -76,12 +76,12 @@ class FrameworkTest < Test::Unit::TestCase
   end
 
   def test_aridad_5
-    aridad_5 = MetodosDeAridad.new(5).and ClasesEspecificas.new([Aridad5])
+    aridad_5 = MetodosDeAridad.new(5).and ClasesEspecificas.new(Aridad5)
     assert_equal [ClaseMetodo.new(Aridad5, :metodo_de_aridad_5)], aridad_5.metodos_que_cumplen
   end
 
   def test_clases_especificas
-    clases = ClasesEspecificas.new([B]).metodos_que_cumplen.collect do |clase_metodo|
+    clases = ClasesEspecificas.new(B).metodos_que_cumplen.collect do |clase_metodo|
       clase_metodo.clase
       end
       assert_equal [B], clases
@@ -98,7 +98,7 @@ class FrameworkTest < Test::Unit::TestCase
   end
 
   def test_metodos_con_parametro_opcional
-    metodos_con_parametro_opcional = MetodosEspecificos.new([:aaa, :bbb, :ccc, :ddd]).and MetodosPorTipoDeParametro.new(:opt)
+    metodos_con_parametro_opcional = MetodosEspecificos.new(:aaa, :bbb, :ccc, :ddd).and MetodosPorTipoDeParametro.new(:opt)
     assert metodos_con_parametro_opcional.metodos_que_cumplen.include? ClaseMetodo.new(C,:ccc)
     assert metodos_con_parametro_opcional.metodos_que_cumplen.include? ClaseMetodo.new(D,:ddd)
     assert_equal metodos_con_parametro_opcional.metodos_que_cumplen.length, 2
@@ -112,7 +112,7 @@ class FrameworkTest < Test::Unit::TestCase
   end
 
   def test_metodos_accessors
-    metodos_accessors = (MetodosAccessors.new.and ClasesEspecificas.new([Persona])).metodos_que_cumplen
+    metodos_accessors = (MetodosAccessors.new.and ClasesEspecificas.new(Persona)).metodos_que_cumplen
     assert_equal [ClaseMetodo.new(Persona, :nombre), ClaseMetodo.new(Persona, :nombre=)], metodos_accessors
   end
 

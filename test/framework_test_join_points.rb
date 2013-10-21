@@ -17,7 +17,7 @@ require_relative '../framework/metodos_accessors'
 require_relative 'clases_de_prueba'
 
 
-class FrameworkTest < Test::Unit::TestCase
+class FrameworkTestJoinPoints < Test::Unit::TestCase
 
   # Called before every test method runs. Can be used
   # to set up fixture information.

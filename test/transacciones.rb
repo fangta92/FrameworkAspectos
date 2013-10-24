@@ -56,7 +56,7 @@ class MyTest < Test::Unit::TestCase
                   self.instance_variable_set(atributo, clon.instance_variable_get(atributo))
                 end
                 end)
-
+  #hola soy una comentario
     guerrero.transaccion_mortal
     assert_equal 750, clon.energia
     assert_equal 100, guerrero.energia

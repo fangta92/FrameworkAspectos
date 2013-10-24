@@ -21,25 +21,22 @@ require_relative 'clases_de_prueba'
 class Div0 < RuntimeError
 end
 
-class Calculadora
-  def div(x, y)
-    x/y
-  end
-end
+
 
 class FrameworkTestAdvices < Test::Unit::TestCase
   def setup
-    # Do nothing
+
   end
 
   def teardown
     # Do nothing
   end
 
+
   def test_before
     calc = Calculadora.new
     Aspecto.new(MetodosEspecificos.new(:div),
-                Before.new do |x, y|
+                Before.new do |cm, x, y|
                   if y == 0 then
                      raise Div0
                   end
@@ -48,4 +45,6 @@ class FrameworkTestAdvices < Test::Unit::TestCase
       calc.div(1007,0)
     end
   end
+
 end
+

@@ -11,7 +11,7 @@ class Advice
 
   def interceptar(clase_metodo)
     metodo_original = metodo_original(clase_metodo)
-    metodo_interceptado = metodo_interceptado(@bloque, metodo_original)
+    metodo_interceptado = metodo_interceptado(@bloque, metodo_original, clase_metodo)
     clase_metodo.clase.class_eval do
       alias_method metodo_original, clase_metodo.metodo
       define_method clase_metodo.metodo, metodo_interceptado
@@ -20,38 +20,38 @@ class Advice
 end
 
 class Before < Advice
-  def metodo_interceptado(bloque, metodo_original)
-    Proc.new do |*args|
-      instance_exec *args, &bloque
+  def metodo_interceptado(bloque, metodo_original, clase_metodo)
+     Proc.new do |*args|
+      instance_exec clase_metodo, *args, &bloque
       send metodo_original, *args
     end
   end
 end
 
 class After < Advice
-  def metodo_interceptado(bloque, metodo_original)
+  def metodo_interceptado(bloque, metodo_original, clase_metodo)
     Proc.new do |*args|
       send metodo_original
-      instance_exec *args, &bloque
+      instance_exec clase_metodo, *args, &bloque
     end
   end
 end
 
 class InsteadOf < Advice
-  def metodo_interceptado(bloque, metodo_original)
+  def metodo_interceptado(bloque, metodo_original, clase_metodo)
     Proc.new do |*args|
-      instance_exec *args, &bloque
+      instance_exec clase_metodo, *args, &bloque
     end
   end
 end
 
 class OnError < Advice
-  def metodo_interceptado(bloque, metodo_original)
+  def metodo_interceptado(bloque, metodo_original, clase_metodo)
     Proc.new do |*args|
       begin
         send metodo_original
       rescue
-        instance_exec *args, &bloque
+        instance_exec clase_metodo, *args, &bloque
       end
     end
   end

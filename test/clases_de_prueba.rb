@@ -48,3 +48,10 @@ class Persona
   end
 
 end
+
+
+class Calculadora
+  def div(x, y)
+    x/y
+  end
+end

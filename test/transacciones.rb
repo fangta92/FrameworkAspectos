@@ -23,7 +23,6 @@ class Guerrero
 
   def transaccion_mortal
     self.vida = 25
-    self.energia = 100
   end
 
 end
@@ -42,10 +41,9 @@ class MyTest < Test::Unit::TestCase
     # Do nothing
   end
 
-  def test_a_ver_si_anda
+  def test_transaccion_commit
     guerrero = Guerrero.new
-    guerrero.vida = 100
-    guerrero.energia = 750
+    guerrero.vida = 750
     clon = 1
     Aspecto.new(ExpresionRegularMetodos.new([/transaccion_/]),
                 Before.new do |clase_metodo, *args|
@@ -56,13 +54,36 @@ class MyTest < Test::Unit::TestCase
                   self.instance_variable_set(atributo, clon.instance_variable_get(atributo))
                 end
                 end)
-  #hola soy una comentario
+
     guerrero.transaccion_mortal
-    assert_equal 750, clon.energia
-    assert_equal 100, guerrero.energia
+    assert_equal 750, clon.vida
+    assert_equal 25, guerrero.vida
 
+  end
 
+  def test_transaccion_rollback
+    guerrero = Guerrero.new
+    guerrero.vida = 1000
+    clon = 1
+    Aspecto.new(ExpresionRegularMetodos.new([/transaccion_/]),
+                Before.new do |clase_metodo, *args|
+                  clon = self.clone()
+                end,
+    OnError.new do |clase_metodo, *args|
+      self.instance_variables.each do |atributo|
+        self.instance_variable_set(atributo, clon.instance_variable_get(atributo))
+      end
+    end)
 
+    Guerrero.class_eval do
+      def transaccion_mortal
+        raise 'El guerrero se murio'
+      end
+    end
+
+    guerrero.transaccion_mortal
+    assert_equal 1000, clon.energia
+    assert_equal 1000, guerrero.energia
   end
 
 end

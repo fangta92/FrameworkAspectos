@@ -113,7 +113,7 @@ class FrameworkTestJoinPoints < Test::Unit::TestCase
 
   def test_metodos_accessors
     metodos_accessors = (MetodosAccessors.new.and ClasesEspecificas.new(Persona)).metodos_que_cumplen
-    assert_equal [ClaseMetodo.new(Persona, :nombre), ClaseMetodo.new(Persona, :nombre=)], metodos_accessors
+    assert_equal [ClaseMetodo.new(Persona, :nombre), ClaseMetodo.new(Persona, :nombre=), ClaseMetodo.new(Persona, :edad), ClaseMetodo.new(Persona, :edad=)], metodos_accessors
   end
 
 end

@@ -1,12 +1,15 @@
 class Advice
   attr_accessor :bloque
-
   def initialize(&bloque)
     @bloque = bloque
   end
 
   def metodo_original(clase_metodo)
-    "__#{clase_metodo.metodo}__".to_sym
+    nombre_metodo = "__#{clase_metodo.metodo}__".to_sym
+    while (clase_metodo.clase.method_defined?(nombre_metodo))
+      nombre_metodo = "__#{nombre_metodo}__".to_sym
+    end
+    nombre_metodo
   end
 
   def interceptar(clase_metodo)

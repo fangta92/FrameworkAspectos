@@ -53,7 +53,10 @@ class FrameworkTestAdvices < Test::Unit::TestCase
     Asd.class_eval do
       define_method :div do end
     end
-
+      a=Asd.new
+    assert_raise Div0 do
+     a.div(1007, 0)
+    end
   end
 
 end

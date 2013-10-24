@@ -41,10 +41,18 @@ class Aridad5
 end
 
 class Persona
-  attr_accessor :nombre
+  attr_accessor :nombre, :edad
+
+  def initialize(nombre, edad)
+    @nombre = nombre
+    @edad = edad
+  end
 
   def cualquiera
+  end
 
+  def edad_por_dos
+    edad*2
   end
 
 end

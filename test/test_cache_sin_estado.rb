@@ -43,27 +43,32 @@ class TestCacheSinEstado < Test::Unit::TestCase
     cache = @cache
     Aspecto.new(MetodosEspecificos.new(:div),InsteadOf.new do |clase_metodo, *args|
 
-      self.class.class_eval { define_method(:ya_fue_ejecutado) { |clase_metodo, args| cache.any? do |resultado|
+      self.class.class_eval { define_method(:ya_fue_ejecutado) { |clase_metodo, args| cache.select do |resultado|
         resultado.clase_metodo == clase_metodo
         resultado.parametros == args
       end } }
 
-      if ya_fue_ejecutado(clase_metodo, args)
-        cache = cache.select do |resultado|
-          resultado.clase_metodo == clase_metodo
-          resultado.parametros == args
-        end
-        resultado = cache.first.resultado
+      resultados = ya_fue_ejecutado(clase_metodo, args)
+      if !(resultados.empty?)
+        resultado = resultados.first.resultado
       else
         resultado = send "__#{clase_metodo.metodo}__".to_sym, *args
         el_resultado = Resultado.new(clase_metodo, args, resultado)
         cache.push(el_resultado)
+        resultado
       end
     end)
+
+
     calc.div(6,2)
     calc.div(6,2)
     calc.div(6,2)
-    assert_equal(1,cache.size)
+    calc.div(3,1)
+    assert_equal(2,cache.size)
+    assert_equal(3,calc.div(6,2))
+
   end
+
+
 
 end

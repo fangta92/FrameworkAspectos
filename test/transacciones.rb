@@ -16,6 +16,7 @@ require_relative '../framework/metodos_por_nombre_de_parametro'
 require_relative '../framework/metodos_accessors'
 require_relative '../framework/advice'
 require_relative '../framework/aspecto'
+require_relative '../framework/metodos_dinamicos'
 
 
 class Guerrero
@@ -41,7 +42,7 @@ class MyTest < Test::Unit::TestCase
     # Do nothing
   end
 
-  def test_transaccion_commit
+  def test_commit_transaction
     guerrero = Guerrero.new
     guerrero.vida = 750
     clon = 1
@@ -61,7 +62,7 @@ class MyTest < Test::Unit::TestCase
 
   end
 
-  def test_transaccion_rollback
+  def test_rollback_transaction
     guerrero = Guerrero.new
     guerrero.vida = 1000
     clon = 1
@@ -76,14 +77,14 @@ class MyTest < Test::Unit::TestCase
     end)
 
     Guerrero.class_eval do
-      def transaccion_mortal
+      def transaccion_mortal_2
         raise 'El guerrero se murio'
       end
     end
 
-    guerrero.transaccion_mortal
-    assert_equal 1000, clon.energia
-    assert_equal 1000, guerrero.energia
+    guerrero.transaccion_mortal_2
+    assert_equal 1000, clon.vida
+    assert_equal 1000, guerrero.vida
   end
 
 end

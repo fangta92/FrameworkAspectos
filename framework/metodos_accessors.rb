@@ -13,3 +13,15 @@ class MetodosAccessors < JoinPoint
   end
 
 end
+
+class Getters < MetodosAccessors
+  def interesa?(clase_metodo)
+    getter?(clase_metodo)
+  end
+end
+
+class Setters < MetodosAccessors
+  def interesa?(clase_metodo)
+    setter?(clase_metodo)
+  end
+end

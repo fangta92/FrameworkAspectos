@@ -16,12 +16,17 @@ require_relative '../framework/metodos_por_nombre_de_parametro'
 require_relative '../framework/metodos_accessors'
 require_relative '../framework/aspecto'
 require_relative '../framework/advice'
+require_relative '../framework/metodos_dinamicos'
 require_relative 'clases_de_prueba'
 
 class Div0 < RuntimeError
 end
 
 
+
+class Asd
+
+end
 
 class FrameworkTestAdvices < Test::Unit::TestCase
   def setup
@@ -38,12 +43,17 @@ class FrameworkTestAdvices < Test::Unit::TestCase
     Aspecto.new(MetodosEspecificos.new(:div),
                 Before.new do |cm, x, y|
                   if y == 0 then
-                     raise Div0
+                    raise Div0
                   end
                 end)
     assert_raise Div0 do
-      calc.div(1007,0)
+      calc.div(1007, 0)
     end
+
+    Asd.class_eval do
+      define_method :div do end
+    end
+
   end
 
 end

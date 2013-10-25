@@ -57,9 +57,30 @@ class Persona
 
 end
 
-
 class Calculadora
+
   def div(x, y)
     x/y
   end
+
+end
+
+class Guerrero
+  attr_accessor :vida
+
+  def transaccion_que_deja_la_vida_en_0_y_lanza_excepcion
+    self.vida = 0
+    raise 'El guerrero se murio'
+  end
+
+  def transaccion_que_baja_50_de_vida
+    self.vida = self.vida - 50
+  end
+
+  def transaccion_que_anida_transacciones
+    self.vida = 100
+    self.transaccion_que_deja_la_vida_en_0_y_lanza_excepcion
+    self.vida += 50
+  end
+
 end

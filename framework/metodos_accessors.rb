@@ -5,7 +5,7 @@ class MetodosAccessors < JoinPoint
   end
 
   def setter?(clase_metodo)
-    /=/.match clase_metodo.metodo.to_s
+    /[^=]+=$/.match clase_metodo.metodo.to_s
   end
 
   def getter?(clase_metodo)

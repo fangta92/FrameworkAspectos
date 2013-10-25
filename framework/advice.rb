@@ -1,5 +1,6 @@
 class Advice
   attr_accessor :bloque
+
   def initialize(&bloque)
     @bloque = bloque
   end
@@ -24,7 +25,7 @@ end
 
 class Before < Advice
   def metodo_interceptado(bloque, metodo_original, clase_metodo)
-     Proc.new do |*args|
+    Proc.new do |*args|
       instance_exec clase_metodo, *args, &bloque
       send metodo_original, *args
     end
@@ -34,7 +35,7 @@ end
 class After < Advice
   def metodo_interceptado(bloque, metodo_original, clase_metodo)
     Proc.new do |*args|
-      send metodo_original
+      send metodo_original, *args
       instance_exec clase_metodo, *args, &bloque
     end
   end
@@ -52,7 +53,7 @@ class OnError < Advice
   def metodo_interceptado(bloque, metodo_original, clase_metodo)
     Proc.new do |*args|
       begin
-        send metodo_original
+        send metodo_original, *args
       rescue
         instance_exec clase_metodo, *args, &bloque
       end

@@ -43,9 +43,8 @@ class TestCacheSinEstado < Test::Unit::TestCase
     cache = @cache
     Aspecto.new(MetodosEspecificos.new(:div),InsteadOf.new do |clase_metodo, *args|
 
-      self.class.class_eval { define_method(:ya_fue_ejecutado) { |clase_metodo, args| cache.select do |resultado|
-        resultado.clase_metodo == clase_metodo
-        resultado.parametros == args
+          self.class.class_eval { define_method(:ya_fue_ejecutado) { |clase_metodo, args| cache.select do |resultado|
+        resultado.clase_metodo == clase_metodo && resultado.parametros == args
       end } }
 
       resultados = ya_fue_ejecutado(clase_metodo, args)

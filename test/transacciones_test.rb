@@ -16,27 +16,7 @@ require_relative '../framework/metodos_por_nombre_de_parametro'
 require_relative '../framework/metodos_accessors'
 require_relative '../framework/advice'
 require_relative '../framework/aspecto'
-require_relative '../framework/metodos_dinamicos'
-
-
-class Luchador
-  attr_accessor :vida, :energia
-
-  def initialize(vida, energia)
-    self.vida = @vida = vida
-    self.energia = @energia = energia
-  end
-
-  def transaccion_atacar(otro_guerrero)
-    self.energia -= 5
-    raise "No tengo energía suficiente" unless (self.energia>0)
-    otro_guerrero.transaccion_perder_vida 1
-  end
-
-  def transaccion_perder_vida(daño)
-    self.vida -= daño
-  end
-end
+require_relative '../test/clases_de_prueba'
 
 
 Aspecto.new(ClasesEspecificas.new(Luchador).and(Setters.new), (InsteadOf.new do |clase_metodo, value|

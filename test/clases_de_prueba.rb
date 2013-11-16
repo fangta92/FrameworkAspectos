@@ -84,3 +84,22 @@ class Guerrero
   end
 
 end
+
+class Luchador
+  attr_accessor :vida, :energia
+
+  def initialize(vida, energia)
+    self.vida = @vida = vida
+    self.energia = @energia = energia
+  end
+
+  def transaccion_atacar(otro_guerrero)
+    self.energia -= 5
+    raise "No tengo energia suficiente" unless (self.energia>0)
+    otro_guerrero.transaccion_perder_vida 1
+  end
+
+  def transaccion_perder_vida(danio)
+    self.vida -= danio
+  end
+end

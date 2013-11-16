@@ -11,7 +11,7 @@ class JoinPoint
   end
 
   def metodos_de_una_clase(clase)
-    clase.instance_methods(false).map do |metodo|
+    (clase.instance_methods(false) + clase.private_instance_methods(false)).map do |metodo|
       ClaseMetodo.new(clase, metodo)
     end
   end

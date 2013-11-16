@@ -46,7 +46,7 @@ class TestCacheConEstado < Test::Unit::TestCase
     cache_posta = @cache
     Aspecto.new(MetodosEspecificos.new(:edad_por_dos),InsteadOf.new do |clase_metodo, *args|
 
-      self.class.class_eval { define_method(:ya_fue_ejecutado) { |clase_metodo, args, instancia| cache_posta.select do |resultado|
+      self.class.class_eval { define_method(:ya_fue_ejecutado) { |clase_metodo, args, instancia| cache_posta.find do |resultado|
         resultado.clase_metodo == clase_metodo
         resultado.parametros == args
         resultado.instancia.instance_variables.all? do |atributo|
@@ -54,16 +54,17 @@ class TestCacheConEstado < Test::Unit::TestCase
         end
       end } }
 
-      resultados = ya_fue_ejecutado(clase_metodo, args, self)
+      resultado_anterior = ya_fue_ejecutado(clase_metodo, args, self)
 
-      if !(resultados.empty?)
-        resultado = resultados.first.resultado
-      else
+      if resultado_anterior.nil?
+        #No se había llamado antes
         resultado = send "__#{clase_metodo.metodo}__".to_sym, *args
-        el_resultado = ResultadoConEstado.new(clase_metodo, args, self.clone, resultado)
-        cache_posta.push(el_resultado)
-        resultado
+        cache_posta.push(ResultadoConEstado.new(clase_metodo, args,self.clone, resultado))
+      else
+        resultado = resultado_anterior.resultado
       end
+      resultado
+
     end)
 
     pablo.edad_por_dos

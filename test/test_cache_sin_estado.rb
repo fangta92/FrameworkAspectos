@@ -21,6 +21,7 @@ require_relative 'clases_de_prueba'
 
 class Resultado
   attr_accessor :clase_metodo, :parametros, :resultado
+
   def initialize(clase_metodo, parametros, resultado)
     @clase_metodo = clase_metodo
     @parametros = parametros
@@ -31,7 +32,7 @@ end
 class TestCacheSinEstado < Test::Unit::TestCase
 
   def setup
-     @cache = []
+    @cache = []
   end
 
   def teardown
@@ -41,33 +42,35 @@ class TestCacheSinEstado < Test::Unit::TestCase
   def test_cache_sin_estado
     calc = Calculadora.new
     cache = @cache
-    Aspecto.new(MetodosEspecificos.new(:div),InsteadOf.new do |clase_metodo, *args|
-
-          self.class.class_eval { define_method(:ya_fue_ejecutado) { |clase_metodo, args| cache.select do |resultado|
-        resultado.clase_metodo == clase_metodo && resultado.parametros == args
-      end } }
-
-      resultados = ya_fue_ejecutado(clase_metodo, args)
-      if !(resultados.empty?)
-        resultado = resultados.first.resultado
-      else
-        resultado = send "__#{clase_metodo.metodo}__".to_sym, *args
-        el_resultado = Resultado.new(clase_metodo, args, resultado)
-        cache.push(el_resultado)
-        resultado
+    Aspecto.new(MetodosEspecificos.new(:div), InsteadOf.new do |clase_metodo, *args|
+      self.class.class_eval do
+        define_method(:ya_fue_ejecutado) do |clase_metodo, args|
+          cache.find do |resultado|
+            resultado.clase_metodo == clase_metodo && resultado.parametros == args
+          end
+        end
       end
+
+      resultado_anterior = ya_fue_ejecutado(clase_metodo, args)
+
+      if resultado_anterior.nil?
+        #No se había llamado antes con estos parámetros
+        resultado = send "__#{clase_metodo.metodo}__".to_sym, *args
+        cache.push(Resultado.new(clase_metodo, args, resultado))
+      else
+        resultado = resultado_anterior.resultado
+      end
+      resultado
     end)
 
-
-    calc.div(6,2)
-    calc.div(6,2)
-    calc.div(6,2)
-    calc.div(3,1)
-    assert_equal(2,cache.size)
-    assert_equal(3,calc.div(6,2))
+    calc.div(6, 2)
+    calc.div(6, 2)
+    calc.div(6, 2)
+    calc.div(3, 1)
+    assert_equal(2, cache.size)
+    assert_equal(3, calc.div(6, 2))
 
   end
-
 
 
 end
